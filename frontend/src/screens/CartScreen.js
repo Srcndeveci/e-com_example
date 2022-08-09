@@ -11,7 +11,7 @@ import {
   Card,
 } from "react-bootstrap";
 import { Link, useParams, useLocation } from "react-router-dom";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 
 const CartScreen = () => {
   const { id } = useParams();
@@ -27,6 +27,9 @@ const CartScreen = () => {
       dispatch(addToCart(productId, qty));
     }
   }, [dispatch, productId, qty]);
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id))
+  }
   return (
     <Row>
       <Col md={8}>
@@ -68,6 +71,7 @@ const CartScreen = () => {
                     <Button
                       type='button'
                       variant='light'
+                      onClick={() => removeFromCartHandler(item.product)}
                       
                     >
                       <i className='fas fa-trash'></i>
@@ -83,7 +87,7 @@ const CartScreen = () => {
         <Card>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h2>
+            <h2>
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 items
               </h2>
